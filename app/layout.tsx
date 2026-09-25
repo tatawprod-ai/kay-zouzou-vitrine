@@ -2,19 +2,13 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Kay Zouzou",
-  description: "Le menu, les avis et les témoignages de Kay Zouzou.",
+  title: "Kay Zouzou — Bar à cocktails artisanal",
+  description: "Cocktails maison pour soirées, mariages et événements privés. Découvrez notre carte, nos événements et l'avis de nos invités.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <head>
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Work+Sans:wght@400;500&family=JetBrains+Mono:wght@400&display=swap"
-        />
-      </head>
       <body>{children}</body>
     </html>
   );
