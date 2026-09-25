@@ -1,9 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function AccesPage() {
+  return (
+    <Suspense fallback={null}>
+      <AccesForm />
+    </Suspense>
+  );
+}
+
+function AccesForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [code, setCode] = useState("");
