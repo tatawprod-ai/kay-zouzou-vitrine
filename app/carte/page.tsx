@@ -9,7 +9,7 @@ export default async function CartePage() {
     .from("cocktails")
     .select("*")
     .eq("actif", true)
-    .order("position")
+    .order("prix", { ascending: true })
     .returns<Cocktail[]>();
 
   const spiritueux = data?.filter((c) => c.categorie === "avec_alcool") ?? [];

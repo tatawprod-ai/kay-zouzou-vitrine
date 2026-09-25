@@ -14,7 +14,7 @@ export default async function HomePage() {
         .select("*")
         .eq("actif", true)
         .eq("mis_en_avant", true)
-        .order("position")
+        .order("prix", { ascending: true })
         .returns<Cocktail[]>(),
       supabase.from("cocktails").select("id", { count: "exact", head: false }).eq("actif", true),
       supabase
