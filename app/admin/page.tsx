@@ -63,8 +63,17 @@ export default function AdminPage() {
 }
 
 // --- Upload helper ---
+const COMBINING_MARKS = new RegExp("[\\u0300-\\u036f]", "g");
+
+function sanitizeFileName(name: string): string {
+  return name
+    .normalize("NFD")
+    .replace(COMBINING_MARKS, "") // supprime les accents (diacritiques isolés par NFD)
+    .replace(/[^a-zA-Z0-9.-]/g, "-"); // le reste (espaces, apostrophes...) devient des tirets
+}
+
 async function uploadFile(file: File, folder: string): Promise<string | null> {
-  const path = `${folder}/${Date.now()}-${file.name}`;
+  const path = `${folder}/${Date.now()}-${sanitizeFileName(file.name)}`;
   const { error } = await supabase.storage.from("photos").upload(path, file);
   if (error) {
     alert("Erreur upload : " + error.message);
