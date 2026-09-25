@@ -154,10 +154,31 @@ export default async function HomePage() {
       <div id="album" style={{ background: "#FBF6EF", padding: "96px 32px" }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
           <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: 36, color: "#2C2C2A", margin: "0 0 48px" }}>Album</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 12 }}>
+          <div
+            style={{
+              display: "flex",
+              gap: 16,
+              overflowX: "auto",
+              scrollSnapType: "x mandatory",
+              WebkitOverflowScrolling: "touch",
+              paddingBottom: 8,
+            }}
+          >
             {photos?.map((p) => (
               // eslint-disable-next-line @next/next/no-img-element
-              <img key={p.id} src={p.photo_url} alt="" style={{ width: "100%", aspectRatio: "1", borderRadius: 4, objectFit: "cover" }} />
+              <img
+                key={p.id}
+                src={p.photo_url}
+                alt=""
+                style={{
+                  flex: "0 0 auto",
+                  width: 260,
+                  aspectRatio: "3/4",
+                  borderRadius: 12,
+                  objectFit: "cover",
+                  scrollSnapAlign: "start",
+                }}
+              />
             ))}
           </div>
         </div>
