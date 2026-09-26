@@ -37,7 +37,7 @@ export default async function CartePage() {
             <div style={{ fontFamily: "'Fraunces', serif", fontSize: 19, color: "#1A1A1A" }}>Frites maison</div>
             <div style={{ fontSize: 13, color: "#6B6259", marginTop: 3 }}>Frites · mayonnaise</div>
           </div>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#000" }}>Offertes</div>
+          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#000", whiteSpace: "nowrap", flexShrink: 0 }}>Offertes</div>
         </div>
 
         <div style={{ marginTop: 56, paddingTop: 20, borderTop: "1px solid rgba(184,147,90,0.2)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
@@ -63,7 +63,7 @@ function Section({ title, items }: { title: string; items: Cocktail[] }) {
           <div key={c.id} style={{ padding: "20px 0", borderBottom: "1px solid rgba(184,147,90,0.25)" }}>
             <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 16 }}>
               <div style={{ fontFamily: "'Fraunces', serif", fontSize: 19, color: "#1A1A1A" }}>{c.nom}</div>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#000" }}>{c.prix.toFixed(0)} €</div>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#000", whiteSpace: "nowrap", flexShrink: 0 }}>{c.prix.toFixed(0)} €</div>
             </div>
             {c.description && <div style={{ fontSize: 13, color: "#6B6259", marginTop: 3 }}>{c.description}</div>}
             {(c.parfums?.length > 0 || c.note_speciale) && (

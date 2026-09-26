@@ -96,7 +96,7 @@ export default async function HomePage() {
                   <div style={{ fontSize: 12, color: "#A99B7F", marginTop: 2 }}>{c.parfums.length} parfums au choix</div>
                 )}
               </div>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 15, color: "#000" }}>
+              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 15, color: "#000", whiteSpace: "nowrap", flexShrink: 0 }}>
                 {c.prix.toFixed(0)} €
               </div>
             </div>
@@ -109,7 +109,7 @@ export default async function HomePage() {
               </div>
               <div style={{ fontFamily: "'Fraunces', serif", fontSize: 18, color: "#2C2C2A" }}>Frites maison</div>
             </div>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#000" }}>Offertes</div>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14, color: "#000", whiteSpace: "nowrap", flexShrink: 0 }}>Offertes</div>
           </div>
 
           <div style={{ textAlign: "center" }}>
