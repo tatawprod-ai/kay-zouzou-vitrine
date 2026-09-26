@@ -33,4 +33,5 @@ export type Avis = {
   note: number;
   commentaire: string | null;
   created_at: string;
+  valide?: boolean;
 };

@@ -10,14 +10,14 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
-import type { Cocktail, Evenement, AlbumPhoto } from "@/lib/types";
+import type { Cocktail, Evenement, AlbumPhoto, Avis } from "@/lib/types";
 
 const ADMIN_CODE = process.env.NEXT_PUBLIC_ADMIN_CODE;
 
 export default function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [pwd, setPwd] = useState("");
-  const [tab, setTab] = useState<"cocktails" | "evenements" | "album">("cocktails");
+  const [tab, setTab] = useState<"cocktails" | "evenements" | "album" | "avis">("cocktails");
 
   if (!authed) {
     return (
@@ -48,15 +48,16 @@ export default function AdminPage() {
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "40px 24px" }}>
         <h1 style={{ fontFamily: "'Fraunces', serif", color: "#E8DFCE", marginBottom: 24 }}>Admin Kay Zouzou</h1>
         <div style={{ display: "flex", gap: 12, marginBottom: 32 }}>
-          {(["cocktails", "evenements", "album"] as const).map((t) => (
+          {(["cocktails", "evenements", "album", "avis"] as const).map((t) => (
             <button key={t} onClick={() => setTab(t)} style={{ ...button, background: tab === t ? "#D85A30" : "#2E2820" }}>
-              {t === "cocktails" ? "Cocktails" : t === "evenements" ? "Événements" : "Album"}
+              {t === "cocktails" ? "Cocktails" : t === "evenements" ? "Événements" : t === "album" ? "Album" : "Avis"}
             </button>
           ))}
         </div>
         {tab === "cocktails" && <CocktailsAdmin />}
         {tab === "evenements" && <EvenementsAdmin />}
         {tab === "album" && <AlbumAdmin />}
+        {tab === "avis" && <AvisAdmin />}
       </div>
     </main>
   );
@@ -295,6 +296,74 @@ function AlbumAdmin() {
             <button onClick={() => remove(p.id)} style={{ position: "absolute", top: 4, right: 4, ...smallBtn, background: "#5A2E24" }}>✕</button>
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+// --- Avis ---
+function AvisAdmin() {
+  const [items, setItems] = useState<Avis[]>([]);
+
+  async function load() {
+    const { data } = await supabase
+      .from("avis_clients")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .returns<Avis[]>();
+    setItems(data || []);
+  }
+  useEffect(() => { load(); }, []);
+
+  async function toggle(id: string, valide: boolean) {
+    await supabase.from("avis_clients").update({ valide: !valide }).eq("id", id);
+    load();
+  }
+
+  async function remove(id: string) {
+    if (!confirm("Supprimer cet avis ?")) return;
+    await supabase.from("avis_clients").delete().eq("id", id);
+    load();
+  }
+
+  const enAttente = items.filter((a) => !a.valide);
+  const valides = items.filter((a) => a.valide);
+
+  return (
+    <div>
+      <div style={card}>
+        <h3 style={h3}>En attente de validation ({enAttente.length})</h3>
+        {enAttente.length === 0 ? (
+          <p style={{ color: "#8A8377", fontSize: 13, margin: 0 }}>Aucun avis en attente.</p>
+        ) : (
+          enAttente.map((a) => <AvisRow key={a.id} avis={a} onToggle={toggle} onRemove={remove} />)
+        )}
+      </div>
+
+      <div style={{ marginTop: 24 }}>
+        <h3 style={{ ...h3, color: "#8A8377" }}>Validés ({valides.length})</h3>
+        {valides.map((a) => <AvisRow key={a.id} avis={a} onToggle={toggle} onRemove={remove} />)}
+      </div>
+    </div>
+  );
+}
+
+function AvisRow({ avis, onToggle, onRemove }: { avis: Avis; onToggle: (id: string, valide: boolean) => void; onRemove: (id: string) => void }) {
+  const id = avis.id!;
+  return (
+    <div style={row}>
+      <div>
+        <span style={{ color: "#B8935A" }}>{"★".repeat(avis.note)}{"☆".repeat(5 - avis.note)}</span>{" "}
+        <span style={{ color: "#E8DFCE" }}>{avis.commentaire || "(sans commentaire)"}</span>
+        <div style={{ color: "#8A8377", fontSize: 12, marginTop: 2 }}>
+          {new Date(avis.created_at).toLocaleDateString("fr-FR")}
+        </div>
+      </div>
+      <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+        <button style={smallBtn} onClick={() => onToggle(id, !!avis.valide)}>
+          {avis.valide ? "Invalider" : "Valider"}
+        </button>
+        <button style={{ ...smallBtn, background: "#5A2E24" }} onClick={() => onRemove(id)}>Suppr.</button>
       </div>
     </div>
   );

@@ -20,6 +20,7 @@ export default function TestimonialsCarousel() {
     supabase
       .from("avis_clients")
       .select("note, commentaire, created_at")
+      .eq("valide", true)
       .not("commentaire", "is", null)
       .order("created_at", { ascending: false })
       .limit(12)
