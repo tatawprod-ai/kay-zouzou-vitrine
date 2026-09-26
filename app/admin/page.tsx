@@ -2,11 +2,14 @@
 
 // TODO(sécurité, pas urgent) : cette page ne protège l'écriture que par un mot
 // de passe côté client (NEXT_PUBLIC_ADMIN_CODE, visible dans le bundle JS) —
-// les policies RLS sur cocktails/evenements/album_photos autorisent l'écriture
-// publique via la clé anon, donc n'importe qui peut modifier ces tables en
-// appelant l'API Supabase directement, sans passer par /admin. Compromis
-// accepté pour l'instant ; à verrouiller plus tard via une route API serveur
-// qui vérifie le mot de passe puis écrit avec une clé service_role.
+// les policies RLS sur cocktails/evenements/album_photos/avis_clients
+// autorisent la lecture et l'écriture publiques via la clé anon (le filtre
+// "valide = true" pour les avis se fait côté requête, pas en RLS — voir
+// supabase/migrations/0013_avis_select_permissive.sql), donc n'importe qui
+// peut modifier ces tables en appelant l'API Supabase directement, sans
+// passer par /admin. Compromis accepté pour l'instant ; à verrouiller plus
+// tard via une route API serveur qui vérifie le mot de passe puis écrit avec
+// une clé service_role.
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
