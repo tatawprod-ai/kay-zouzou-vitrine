@@ -20,6 +20,8 @@ export type Evenement = {
   flyer_url: string | null;
   position: number;
   actif: boolean;
+  /** Nom court du lien /inscription/<slug> (migration 0017), facultatif. */
+  slug: string | null;
 };
 
 export type AlbumPhoto = {

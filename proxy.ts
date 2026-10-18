@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { slugDepuisChemin } from "@/lib/slug";
 
 // Laisse passer /acces, l'API de validation, et les assets Next.js sans code.
 const PUBLIC_PATHS = ["/acces", "/api/acces", "/_next", "/favicon.ico"];
@@ -9,7 +10,13 @@ const PUBLIC_EXACT_PATHS = ["/inscription", "/api/inscriptions"];
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (PUBLIC_EXACT_PATHS.includes(pathname) || PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
+  if (
+    PUBLIC_EXACT_PATHS.includes(pathname) ||
+    // Liens d'inscription par événement : exactement /inscription/<slug>, un seul
+    // segment conforme à lib/slug.ts (pas de "commence par").
+    slugDepuisChemin(pathname) !== null ||
+    PUBLIC_PATHS.some((p) => pathname.startsWith(p))
+  ) {
     return NextResponse.next();
   }
 
