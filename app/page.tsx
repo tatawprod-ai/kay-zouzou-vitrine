@@ -144,6 +144,9 @@ export default async function HomePage() {
                   <div style={{ fontFamily: "'Fraunces', serif", fontSize: 18, color: "#E8DFCE", marginTop: 2 }}>{ev.titre}</div>
                   <div style={{ fontSize: 13, color: "#8A8377", marginTop: 2 }}>{ev.lieu}</div>
                 </div>
+                <Link href={`/inscription?evenement=${ev.id}`} style={inscriptionCtaStyle}>
+                  S&apos;inscrire
+                </Link>
               </div>
             ))}
           </div>
@@ -218,6 +221,7 @@ const navInnerStyle: React.CSSProperties = { maxWidth: 1120, margin: "0 auto", p
 const navLinksStyle: React.CSSProperties = { display: "flex", gap: 28, flexWrap: "wrap" };
 const navLinkStyle: React.CSSProperties = { fontSize: 14, color: "#E8DFCE", opacity: 0.85, textDecoration: "none" };
 const ctaStyle: React.CSSProperties = { display: "inline-flex", alignItems: "center", justifyContent: "center", padding: "12px 24px", borderRadius: 4, fontSize: 14, fontWeight: 500, background: "#D85A30", color: "#FBF6EF", textDecoration: "none" };
+const inscriptionCtaStyle: React.CSSProperties = { ...ctaStyle, alignSelf: "flex-start", marginTop: "auto", padding: "10px 20px", background: "transparent", border: "1px solid #B8935A", color: "#E8DFCE" };
 const heroStyle: React.CSSProperties = { position: "relative", padding: "140px 32px 120px", textAlign: "center", overflow: "hidden" };
 const heroOverlayStyle: React.CSSProperties = { position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(21,17,14,0.75) 0%, rgba(21,17,14,0.55) 45%, #211C18 100%), url(/hero.jpg) center/cover", zIndex: 1 };
 const heroTitleStyle: React.CSSProperties = { fontFamily: "'Fraunces', serif", fontSize: 76, lineHeight: 1, color: "#F3EEE3", margin: "16px 0" };
